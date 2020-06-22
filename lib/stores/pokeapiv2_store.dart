@@ -11,19 +11,24 @@ class PokeApiV2Store = _PokeApiV2StoreBase with _$PokeApiV2Store;
 
 abstract class _PokeApiV2StoreBase with Store {
   @observable
-  PokeApiV2 pokeApiV2;
+  PokeApiV2 _pokeApiV2;
 
   @observable
   Specie specie;
 
+  @computed
+  PokeApiV2 get pokeApiV2 => _pokeApiV2;
+
   @action
-  Future<void> getInfoPokemon({int index}) async {
+  Future<void> getInfoPokemon({String name}) async {
     try {
       final response =
-          await http.get(ConstsApi.pokeApiV2URL + index.toString());
+          await http.get(ConstsApi.pokeApiV2URL + name.toLowerCase());
+
       var decodeJson = jsonDecode(response.body);
-      pokeApiV2 = PokeApiV2.fromJson(decodeJson);
+      _pokeApiV2 = PokeApiV2.fromJson(decodeJson);
     } catch (error, stacktrace) {
+      _pokeApiV2 = null;
       print('erro ao carregar infolist $error ' + stacktrace.toString());
       return null;
     }

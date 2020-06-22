@@ -1,13 +1,13 @@
 class PokeApi {
-  List<Pokemon> pokemon;
+  List<Pokemin> pokemon;
 
   PokeApi({this.pokemon});
 
   PokeApi.fromJson(Map<String, dynamic> json) {
     if (json['pokemon'] != null) {
-      pokemon = new List<Pokemon>();
+      pokemon = new List<Pokemin>();
       json['pokemon'].forEach((v) {
-        pokemon.add(new Pokemon.fromJson(v));
+        pokemon.add(new Pokemin.fromJson(v));
       });
     }
   }
@@ -21,7 +21,7 @@ class PokeApi {
   }
 }
 
-class Pokemon {
+class Pokemin {
   int id;
   String num;
   String name;
@@ -34,7 +34,7 @@ class Pokemon {
   List<NextEvolution> nextEvolution;
   List<PrevEvolution> prevEvolution;
 
-  Pokemon(
+  Pokemin(
       {this.id,
       this.num,
       this.name,
@@ -47,7 +47,7 @@ class Pokemon {
       this.nextEvolution,
       this.prevEvolution});
 
-  Pokemon.fromJson(Map<String, dynamic> json) {
+  Pokemin.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     num = json['num'];
     name = json['name'];

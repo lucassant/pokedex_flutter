@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/pages/home_page/widgets/search_modal.dart';
 
 class AppBarHome extends StatelessWidget {
   @override
@@ -15,7 +16,11 @@ class AppBarHome extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5, top: 14),
                 child: IconButton(
                   icon: Icon(Icons.menu),
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (context) => SearchBottomModal());
+                  },
                 ),
               )
             ],

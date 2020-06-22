@@ -3,11 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokedex/consts/consts_app.dart';
-import 'package:pokedex/models/pokeapi.dart';
+import 'package:pokedex/models/pokemonapi.dart';
+
 import 'package:pokedex/pages/home_page/widgets/app_bar_home.dart';
 import 'package:pokedex/pages/home_page/widgets/poke_item.dart';
 import 'package:pokedex/pages/poke_detail/poke_detail_page.dart';
-import 'package:pokedex/stores/pokeapi_store.dart';
+
+import 'package:pokedex/stores/pokedexapi_store.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,14 +17,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PokeApiStore _pokemonStore;
+  PokedexApiStore _pokedexApiStore;
 
   @override
   void initState() {
-    _pokemonStore = GetIt.instance<PokeApiStore>();
+    _pokedexApiStore = GetIt.instance<PokedexApiStore>();
     //Só carrega a lista se for null antes
-    if (_pokemonStore.pokeApi == null) {
-      _pokemonStore.fetchPokemonList();
+    if (_pokedexApiStore.pokemonApi == null) {
+      _pokedexApiStore.fetchList();
     }
     super.initState();
   }
@@ -61,18 +63,22 @@ class _HomePageState extends State<HomePage> {
                     child: Observer(
                       name: 'ListaHomePage',
                       builder: (BuildContext context) {
-                        PokeApi _pokeApi = _pokemonStore.pokeApi;
-                        return (_pokeApi != null)
+                        if (_pokedexApiStore.pokemonApi != null) {
+                          print(
+                              '${_pokedexApiStore.pokemonApi.pokemon.length}');
+                        }
+                        return (_pokedexApiStore.pokemonApi != null)
                             ? AnimationLimiter(
                                 child: GridView.builder(
                                     physics: BouncingScrollPhysics(),
-                                    itemCount: _pokeApi.pokemon.length,
+                                    itemCount: _pokedexApiStore
+                                        .pokemonApi.pokemon.length,
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2),
                                     itemBuilder: (context, index) {
-                                      Pokemon _pokemon =
-                                          _pokemonStore.getPokemon(index);
+                                      Pokemon _pokemon = _pokedexApiStore
+                                          .pokemonApi.pokemon[index];
 
                                       return AnimationConfiguration
                                           .staggeredGrid(
@@ -81,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                               child: ScaleAnimation(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    _pokemonStore
+                                                    _pokedexApiStore
                                                         .setPokemonAtual(
                                                             index: index);
                                                     Navigator.push(
@@ -96,12 +102,13 @@ class _HomePageState extends State<HomePage> {
                                                                 false));
                                                   },
                                                   child: PokeItem(
-                                                    name: _pokemon.name,
-                                                    numero: _pokemon.num,
-                                                    types: _pokemon.type,
-                                                    index: index,
-                                                    id: _pokemon.id,
-                                                  ),
+                                                      name: _pokemon.name,
+                                                      numero: _pokemon.id,
+                                                      types: _pokemon
+                                                          .typeofpokemon,
+                                                      imageUrl:
+                                                          _pokemon.imageurl,
+                                                      index: index),
                                                 ),
                                               ));
                                     }))

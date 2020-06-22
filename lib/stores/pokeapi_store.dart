@@ -16,7 +16,7 @@ abstract class _PokeApiStoreBase with Store {
   PokeApi _pokeApi;
 
   @observable
-  Pokemon _pokemonAtual;
+  Pokemin _pokemonAtual;
   @observable
   Color _corPokemonAtual;
   @observable
@@ -26,7 +26,7 @@ abstract class _PokeApiStoreBase with Store {
   PokeApi get pokeApi => _pokeApi;
 
   @computed
-  Pokemon get pokemonAtual => _pokemonAtual;
+  Pokemin get pokemonAtual => _pokemonAtual;
 
   @computed
   Color get corPokemonAtual => _corPokemonAtual;
@@ -59,9 +59,6 @@ abstract class _PokeApiStoreBase with Store {
 
   @action
   Widget getImage({String numero}) {
-    //vai receber o num porém vai ter que obter o id a partir disso
-    int _id = getPokemonId(num: numero);
-
     return CachedNetworkImage(
       placeholder: (context, url) {
         return Container(
@@ -69,7 +66,8 @@ abstract class _PokeApiStoreBase with Store {
           child: CircularProgressIndicator(),
         );
       },
-      imageUrl: 'https://pokeres.bastionbot.org/images/pokemon/$_id.png',
+      imageUrl:
+          'https://assets.pokemon.com/assets/cms2/img/pokedex/full/$numero.png',
     );
   }
 

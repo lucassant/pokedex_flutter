@@ -5,10 +5,14 @@ class ConstsApp {
   static const darkPokeball = 'assets/images/pokeball_dark.png';
 
   static Widget setTipos(List<String> types, int origem) {
+    //vai somar de acordo com o tamanho da lista e se for 0 ele não da o padding na esquerda
+    int _indexLista = 0;
+
     List<Widget> lista = [];
     types.forEach((nome) {
       lista.add(Padding(
-        padding: EdgeInsets.only(left: (origem == 2 ? 8 : 0)),
+        padding:
+            EdgeInsets.only(left: (origem == 2 && _indexLista > 0 ? 8 : 0)),
         child: Column(
           children: <Widget>[
             Container(
@@ -34,6 +38,7 @@ class ConstsApp {
           ],
         ),
       ));
+      _indexLista++;
     });
     return origem == 1
         ? Column(children: lista, crossAxisAlignment: CrossAxisAlignment.start)

@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/consts/consts_app.dart';
 
 class PokeItem extends StatelessWidget {
-  const PokeItem(
-      {Key key,
-      this.name,
-      this.index,
-      this.color,
-      this.numero,
-      this.types,
-      this.id})
-      : super(key: key);
+  const PokeItem({
+    Key key,
+    this.name,
+    this.index,
+    this.color,
+    this.numero,
+    this.types,
+    this.imageUrl,
+  }) : super(key: key);
 
   final String name;
   final int index;
   final Color color;
   final String numero;
   final List<String> types;
-  final int id;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class PokeItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8, top: 8),
                   child: Text(
-                    '#$numero',
+                    '$numero',
                     style: TextStyle(
                         color: Color.fromARGB(50, 0, 0, 0),
                         fontFamily: 'Google',
@@ -72,8 +72,7 @@ class PokeItem extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       },
-                      imageUrl:
-                          'https://pokeres.bastionbot.org/images/pokemon/$id.png'),
+                      imageUrl: imageUrl),
                 ),
               ),
               Column(
