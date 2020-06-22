@@ -48,7 +48,8 @@ class _AboutPageState extends State<AboutPage>
                 _auxName = 'nidoran-m';
               }
 
-              _pokeApiV2Store.getInfoPokemon(name: _auxName);
+              _pokeApiV2Store.getInfoPokemon(
+                  name: _auxName.replaceAll('\'', ''));
 
               return _pokeApiV2Store.pokeApiV2 != null
                   ? TabBar(
@@ -81,27 +82,41 @@ class _AboutPageState extends State<AboutPage>
                           text: "Evolution",
                         ),
                         Tab(
-                          text: "Status",
+                          text: "Stats",
                         ),
                       ],
                     )
-                  : Container();
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    );
             },
           ),
         ),
       ),
-      body: PageView(
-        onPageChanged: (index) {
-          _tabController.animateTo(index,
-              duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-        },
-        controller: _pageController,
-        children: <Widget>[
-          AboutTab(),
-          EvolutionTab(),
-          StatusTab(),
-        ],
-      ),
+      body: Observer(
+          name: 'obs_body',
+          builder: (context) {
+            return _pokeApiV2Store.pokeApiV2 != null
+                ? PageView(
+                    onPageChanged: (index) {
+                      _tabController.animateTo(index,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut);
+                    },
+                    controller: _pageController,
+                    children: <Widget>[
+                      AboutTab(),
+                      EvolutionTab(),
+                      StatusTab(),
+                    ],
+                  )
+                : Center(
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                    ),
+                  );
+          }),
     );
   }
 }

@@ -41,7 +41,7 @@ class ConstsApp {
       _indexLista++;
     });
     return origem == 1
-        ? Column(children: lista, crossAxisAlignment: CrossAxisAlignment.start)
+        ? Column(children: lista, crossAxisAlignment: CrossAxisAlignment.center)
         : Row(
             children: lista,
             mainAxisSize: MainAxisSize.max,

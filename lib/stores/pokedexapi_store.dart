@@ -71,6 +71,11 @@ abstract class _PokedexApiStoreBase with Store {
     });
   }
 
+  @action
+  Pokemon getPokemonById({String id}) {
+    return _pokemonApi.pokemon.where((el) => el.id == id).first;
+  }
+
   Future<PokemonApi> loadPokedexApi() async {
     try {
       final response = await http.get(ConstsApi.pokedexApiURL);

@@ -181,6 +181,17 @@ mixin _$PokedexApiStore on _PokedexApiStoreBase, Store {
   }
 
   @override
+  Pokemon getPokemonById({String id}) {
+    final _$actionInfo = _$_PokedexApiStoreBaseActionController.startAction(
+        name: '_PokedexApiStoreBase.getPokemonById');
+    try {
+      return super.getPokemonById(id: id);
+    } finally {
+      _$_PokedexApiStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 pokemonApi: ${pokemonApi},
